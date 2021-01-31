@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Todo App</string>
+    <string name="todo_description">Todo Description</string>
+    <string name="todo_title">Todo Title</string>
+    <string name="database">MyTasks.db</string>
+</resources>
