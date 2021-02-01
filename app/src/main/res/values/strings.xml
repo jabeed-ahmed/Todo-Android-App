@@ -3,4 +3,5 @@
     <string name="todo_description">Todo Description</string>
     <string name="todo_title">Todo Title</string>
     <string name="database">MyTasks.db</string>
+    <string name="add_a_new_task">Add a new Task</string>
 </resources>

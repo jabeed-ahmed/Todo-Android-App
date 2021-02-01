@@ -35,20 +35,11 @@ ext.versions = [
         // glide
         glideVersion        : '4.11.0',
 
-        // transformation
-        transformationLayout: '1.0.4',
-
         // whatIf
         whatIfVersion       : '1.0.7',
 
         // bundler
         bundlerVersion      : '1.0.2',
-
-        // android veil
-        androidVeilVersion  : '1.1.0',
-
-        // discrete scrollview
-        discreteScrollview  : '1.4.9',
 
         // debugging
         timberVersion       : '4.7.1',

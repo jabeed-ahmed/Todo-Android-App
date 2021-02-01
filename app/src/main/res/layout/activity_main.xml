@@ -10,6 +10,10 @@
             type="com.orion.todoapp.view.ui.MainViewModel" />
 
         <variable
+            name="config"
+            type="com.orion.todoapp.binding.ToolbarConfiguration" />
+
+        <variable
             name="taskAdapter"
             type="com.orion.todoapp.view.adapter.TasksAdapter" />
 
@@ -22,6 +26,7 @@
 
         <include
             android:id="@+id/include_toolbar"
+            app:config="@{config}"
             layout="@layout/toolbar" />
 
         <androidx.recyclerview.widget.RecyclerView
