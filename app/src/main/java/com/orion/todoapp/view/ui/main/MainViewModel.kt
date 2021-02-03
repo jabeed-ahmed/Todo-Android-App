@@ -1,10 +1,12 @@
-package com.orion.todoapp.view.ui
+package com.orion.todoapp.view.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.load.engine.Resource
 import com.orion.todoapp.base.LiveCoroutinesViewModel
 import com.orion.todoapp.model.TaskData
+import com.orion.todoapp.model.TaskItem
 import com.orion.todoapp.model.TaskResult
 import com.orion.todoapp.repository.MainRepository
 import kotlinx.coroutines.Dispatchers
@@ -27,11 +29,13 @@ class MainViewModel constructor(
     private val _taskHeader: MutableLiveData<String> = MutableLiveData()
     val taskHeader: LiveData<String> get() = _taskHeader
 
-    var title: String = ""
-    var description: String = ""
-
     private var _dialogResult: MutableLiveData<TaskResult> = MutableLiveData()
     var dialogResult: LiveData<TaskResult> = _dialogResult
+
+    var title = MutableLiveData<String>()
+    var description = MutableLiveData<String>()
+
+    private val task = MutableLiveData<Resource<TaskData>>()
 
     init {
         Timber.d("INIT MAIN VIEW MODEL")
@@ -58,23 +62,15 @@ class MainViewModel constructor(
         }
     }
 
-    fun performValidation() {
-        if (title.isBlank()) {
-            Timber.d("CLICKED! $title")
-            val res = TaskResult("Please fill in the title", false)
-            _dialogResult.postValue(res)
-            return
+    fun postTask(item: TaskItem) {
+        Timber.d("Item received!$item")
+        _isLoading.postValue(true)
+        val todo = TaskData(0, item.title, item.note)
+        mainRepository.postTask(todo)
+        viewModelScope.launch {
+            getTasks().collect { list ->
+                _dataList.postValue(list)
+            }
         }
-
-        if (description.isBlank()) {
-            Timber.d("CLICKED! $description")
-            val res = TaskResult("Please fill in the description", false)
-            _dialogResult.postValue(res)
-            return
-        }
-
-        Timber.d("CLICKED! $description $title")
-        val res = TaskResult("Success", true)
-        _dialogResult.postValue(res)
     }
 }

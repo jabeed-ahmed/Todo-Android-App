@@ -2,7 +2,6 @@ package com.orion.todoapp.binding
 
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.BindingAdapter
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
@@ -31,7 +30,11 @@ object ViewBinding {
     @BindingAdapter("message")
     fun bindMessage(view: MaterialButton, result: TaskResult?) {
         result.whatIfNotNull {
-            Toast.makeText(view.context, it.message, Toast.LENGTH_LONG).show()
+            if (it.result) {
+                Toast.makeText(view.context, it.message + "" + it.result, Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(view.context, it.message + "" + it.result, Toast.LENGTH_LONG).show()
+            }
         }
     }
 

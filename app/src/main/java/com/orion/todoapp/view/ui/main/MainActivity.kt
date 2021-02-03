@@ -1,24 +1,26 @@
-package com.orion.todoapp.view.ui
+package com.orion.todoapp.view.ui.main
 
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.orion.todoapp.R
 import com.orion.todoapp.base.DataBindingActivity
 import com.orion.todoapp.binding.ToolbarConfiguration
 import com.orion.todoapp.databinding.ActivityMainBinding
 import com.orion.todoapp.databinding.DialogAddTaskBinding
+import com.orion.todoapp.model.TaskItem
 import com.orion.todoapp.view.adapter.TasksAdapter
 import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.dialog_add_task.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import org.koin.android.viewmodel.ext.android.getViewModel
-import timber.log.Timber
+
 
 class MainActivity : DataBindingActivity() {
     private val binding: ActivityMainBinding by binding(R.layout.activity_main)
     private lateinit var viewBinding: ActivityMainBinding
-
-    // Configuration
     private val toolbar = ToolbarConfiguration()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +41,10 @@ class MainActivity : DataBindingActivity() {
     }
 
     private fun showDialog() {
-        Timber.d("DISPLAY DIALOG BOX")
+        val viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        ).get(MainViewModel::class.java)
 
         val dialogBuilder = AlertDialog.Builder(this)
         val binding: DialogAddTaskBinding = DialogAddTaskBinding.inflate(layoutInflater)
@@ -47,15 +52,28 @@ class MainActivity : DataBindingActivity() {
         binding.vm = getViewModel()
         dialogBuilder.setView(binding.root)
 
+        val alertDialog: AlertDialog = dialogBuilder.create()
 
-        dialogBuilder.setPositiveButton("OK") { dialog, whichButton ->
-            dialog.dismiss()
+        binding.tvAdd.setOnClickListener {
+            val title = binding.etTitle.text.toString()
+            val description = binding.etDescription.text.toString()
+
+            if (title.isEmpty() || description.isEmpty()) {
+                Toast.makeText(this, "Please enter required fields!", Toast.LENGTH_LONG).show()
+            } else {
+                val item = TaskItem(title, description)
+                viewModel.postTask(item)
+                alertDialog.cancel()
+                binding.etTitle.text?.clear()
+                binding.etDescription.text?.clear()
+            }
         }
 
-        dialogBuilder.setNegativeButton("Cancel") { dialog, whichButton ->
-            dialog.dismiss()
+        binding.tvCancel.setOnClickListener {
+            alertDialog.cancel()
         }
 
-        dialogBuilder.show()
+        alertDialog.show()
     }
+
 }

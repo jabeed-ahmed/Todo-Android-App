@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.orion.todoapp.view.ui.MainViewModel" />
+            type="com.orion.todoapp.view.ui.main.MainViewModel" />
 
     </data>
 
@@ -70,12 +70,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:onClick="@{() -> vm.performValidation()}"
             android:text="Add"
             android:textSize="@dimen/_14ssp"
-            app:message="@{vm.dialogResult}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/etDescription"
+            app:message="@{vm.dialogResult}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

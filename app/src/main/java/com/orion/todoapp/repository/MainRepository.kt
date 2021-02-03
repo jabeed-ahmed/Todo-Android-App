@@ -17,10 +17,12 @@ class MainRepository constructor(
     private val apiService: ApiService,
     private val taskDAO: TaskDAO
 ) : Repository {
+
     init {
         Timber.d("Injection MainRepository")
     }
 
+    /* LOAD ALL THE TASKS */
     fun loadTasks(
         onSuccess: (List<TaskData>) -> Unit,
         onError: (String) -> Unit
@@ -48,4 +50,11 @@ class MainRepository constructor(
             onSuccess(tasks)
         }
     }.flowOn(Dispatchers.IO)
+
+    /* POST A TASK */
+    fun postTask(
+        item: TaskData
+    ) {
+        taskDAO.insertTaskData(item)
+    }
 }

@@ -7,7 +7,7 @@
     <data>
         <variable
             name="vm"
-            type="com.orion.todoapp.view.ui.MainViewModel" />
+            type="com.orion.todoapp.view.ui.main.MainViewModel" />
 
         <variable
             name="config"
@@ -22,7 +22,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.ui.MainActivity">
+        tools:context=".view.ui.main.MainActivity">
 
         <include
             android:id="@+id/include_toolbar"

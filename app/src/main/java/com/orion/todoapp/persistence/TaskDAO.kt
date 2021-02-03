@@ -18,4 +18,7 @@ interface TaskDAO {
 
     @Query("SELECT * FROM TaskData")
     fun getTaskDataList(): List<TaskData>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertTaskData(task: TaskData)
 }
