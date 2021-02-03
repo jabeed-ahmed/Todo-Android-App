@@ -2,6 +2,7 @@ package com.orion.todoapp.view.ui.main
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +11,7 @@ import com.orion.todoapp.base.DataBindingActivity
 import com.orion.todoapp.binding.ToolbarConfiguration
 import com.orion.todoapp.databinding.ActivityMainBinding
 import com.orion.todoapp.databinding.DialogAddTaskBinding
+import com.orion.todoapp.model.TaskData
 import com.orion.todoapp.model.TaskItem
 import com.orion.todoapp.view.adapter.TasksAdapter
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -18,10 +20,11 @@ import kotlinx.android.synthetic.main.toolbar.view.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 
 
-class MainActivity : DataBindingActivity() {
+class MainActivity : DataBindingActivity(), TasksAdapter.OnItemClickListener {
     private val binding: ActivityMainBinding by binding(R.layout.activity_main)
     private lateinit var viewBinding: ActivityMainBinding
     private val toolbar = ToolbarConfiguration()
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +35,13 @@ class MainActivity : DataBindingActivity() {
         binding.apply {
             lifecycleOwner = this@MainActivity
             vm = getViewModel()
-            taskAdapter = TasksAdapter()
+            taskAdapter = TasksAdapter(this@MainActivity)
         }
+
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        ).get(MainViewModel::class.java)
 
         toolbar.setConfiguration("My Dashboard") { v: View? ->
             showDialog()
@@ -41,10 +49,6 @@ class MainActivity : DataBindingActivity() {
     }
 
     private fun showDialog() {
-        val viewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        ).get(MainViewModel::class.java)
 
         val dialogBuilder = AlertDialog.Builder(this)
         val binding: DialogAddTaskBinding = DialogAddTaskBinding.inflate(layoutInflater)
@@ -74,6 +78,10 @@ class MainActivity : DataBindingActivity() {
         }
 
         alertDialog.show()
+    }
+
+    override fun onItemClick(item: TaskData) {
+        Log.d("ImageClicked", item.title)
     }
 
 }

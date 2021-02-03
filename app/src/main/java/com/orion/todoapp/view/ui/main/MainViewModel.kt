@@ -65,7 +65,7 @@ class MainViewModel constructor(
     fun postTask(item: TaskItem) {
         Timber.d("Item received!$item")
         _isLoading.postValue(true)
-        val todo = TaskData(0, item.title, item.note)
+        val todo = TaskData(null, item.title, item.note)
         mainRepository.postTask(todo)
         viewModelScope.launch {
             getTasks().collect { list ->

@@ -21,4 +21,5 @@ interface TaskDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertTaskData(task: TaskData)
+
 }
