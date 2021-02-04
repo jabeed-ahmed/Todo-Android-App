@@ -67,10 +67,20 @@ class MainViewModel constructor(
         _isLoading.postValue(true)
         val todo = TaskData(null, item.title, item.note)
         mainRepository.postTask(todo)
+        getUpdatedTasks()
+    }
+
+    private fun getUpdatedTasks() {
         viewModelScope.launch {
             getTasks().collect { list ->
                 _dataList.postValue(list)
             }
         }
+    }
+
+    fun deleteTask(item: TaskData){
+        Timber.d("Item delete!$item")
+        item.id?.let { mainRepository.deleteTaskData(it) }
+        getUpdatedTasks()
     }
 }

@@ -57,4 +57,9 @@ class MainRepository constructor(
     ) {
         taskDAO.insertTaskData(item)
     }
+
+    /* DELETE DATA */
+    fun deleteTaskData(id: Long){
+        taskDAO.deleteTaskData(id)
+    }
 }

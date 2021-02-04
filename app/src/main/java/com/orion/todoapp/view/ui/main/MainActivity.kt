@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.orion.todoapp.R
 import com.orion.todoapp.base.DataBindingActivity
 import com.orion.todoapp.binding.ToolbarConfiguration
@@ -43,6 +44,12 @@ class MainActivity : DataBindingActivity(), TasksAdapter.OnItemClickListener {
             ViewModelProvider.NewInstanceFactory()
         ).get(MainViewModel::class.java)
 
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         toolbar.setConfiguration("My Dashboard") { v: View? ->
             showDialog()
         } // Update the UI
@@ -81,6 +88,7 @@ class MainActivity : DataBindingActivity(), TasksAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(item: TaskData) {
+        viewModel.deleteTask(item)
         Log.d("ImageClicked", item.title)
     }
 

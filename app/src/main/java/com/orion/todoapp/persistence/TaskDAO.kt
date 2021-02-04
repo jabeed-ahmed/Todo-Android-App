@@ -1,9 +1,6 @@
 package com.orion.todoapp.persistence
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.orion.todoapp.model.TaskData
 import com.orion.todoapp.model.TaskItem
 
@@ -22,4 +19,6 @@ interface TaskDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertTaskData(task: TaskData)
 
+    @Query("DELETE FROM TaskData Where id = :id_")
+    fun deleteTaskData(id_: Long)
 }
